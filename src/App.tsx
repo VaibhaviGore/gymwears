@@ -7,6 +7,8 @@ import ProductDetail from './pages/ProductDetail.jsx';
 import Cart from './pages/Cart.jsx';
 import About from './pages/About.jsx';
 import SonioxTranscriber from './pages/soniox-transcriber.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
 
 function App() {
     return (
@@ -21,6 +23,8 @@ function App() {
                         <Route path="/cart" element={<Cart />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/transcriber" element={<SonioxTranscriber />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
                     </Routes>
                 </main>
                 <Footer />

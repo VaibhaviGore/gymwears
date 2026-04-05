@@ -1,10 +1,30 @@
-import { useState } from 'react';
-import { products } from '../data/products';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import ProductCard from '../components/ProductCard';
-import { Filter } from 'lucide-react';
+import { Filter, Loader } from 'lucide-react';
 
 const Shop = () => {
+    const [products, setProducts] = useState([]);
     const [filter, setFilter] = useState('All');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:5000/api/products');
+                setProducts(data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setError('Failed to load products');
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
     const categories = ['All', ...new Set(products.map(p => p.category))];
 
     const filteredProducts = filter === 'All'
@@ -40,11 +60,21 @@ const Shop = () => {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
-                {filteredProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
+            {loading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', flexDirection: 'column', gap: '1rem' }}>
+                    <Loader size={48} className="text-neon" style={{ animation: 'spin 1s linear infinite' }} />
+                    <p style={{ color: 'var(--text-gray)' }}>Loading collection...</p>
+                    <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+                </div>
+            ) : error ? (
+                <div style={{ textAlign: 'center', color: 'red', marginTop: '2rem' }}>{error}</div>
+            ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+                    {filteredProducts.map(product => (
+                        <ProductCard key={product._id || product.id} product={product} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

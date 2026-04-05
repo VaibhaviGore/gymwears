@@ -8,11 +8,11 @@ const ProductCard = ({ product }) => {
     const handleAddToCart = (e) => {
         e.preventDefault();
         // Default to first size if not specified, simpler for grid view
-        addToCart(product, product.sizes[0]);
+        addToCart(product, product.sizes && product.sizes.length > 0 ? product.sizes[0] : null);
     };
 
     return (
-        <Link to={`/product/${product.id}`} style={{ display: 'block', textDecoration: 'none' }}>
+        <Link to={`/product/${product._id || product.id}`} style={{ display: 'block', textDecoration: 'none' }}>
             <div style={{ backgroundColor: 'var(--bg-card)', transition: 'transform 0.3s ease', height: '100%', position: 'relative', overflow: 'hidden', group: 'card' }} className="product-card">
                 <div style={{ position: 'relative', aspectRatio: '1/1', overflow: 'hidden' }}>
                     <img

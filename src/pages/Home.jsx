@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
 import ClassCard from '../components/ClassCard';
+import BookingModal from '../components/BookingModal';
 
 const Home = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedClass, setSelectedClass] = useState('');
+
     const classes = [
         { id: 1, title: 'POWER YOGA', img: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?auto=format&fit=crop&q=80&w=600' },
         { id: 2, title: 'BATTLEBOX', img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=600' },
@@ -72,16 +77,46 @@ const Home = () => {
                                 Learn more about our mission
                             </Link>
                         </div>
-                        <div style={{ position: 'relative' }}>
-                            <img
-                                src="https://images.unsplash.com/photo-1517963879466-e9b5ce382d69?auto=format&fit=crop&q=80&w=800"
-                                alt="Gym Philosophy"
+                        <div style={{ position: 'relative', display: 'flex' }}>
+                            <video
+                                src="https://www.youtube.com/embed/dJlFmxiL11s"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                poster="https://images.unsplash.com/photo-1517963879466-e9b5ce382d69?auto=format&fit=crop&q=80&w=800"
                                 style={{ width: '100%', filter: 'grayscale(100%)', boxShadow: '20px 20px 0 var(--bg-card)' }}
                             />
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid rgba(255,255,255,0.3)', borderRadius: '50%', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid rgba(255,255,255,0.3)', borderRadius: '50%', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
                                 <Play fill="white" size={32} />
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Classes Section */}
+            <section id="classes" style={{ padding: '8rem 0' }}>
+                <div className="container">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem' }}>
+                        <div>
+                            <h2 style={{ fontSize: '3rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1rem' }}>Our Classes</h2>
+                            <p style={{ color: 'var(--text-gray)', maxWidth: '400px' }}>Dynamic sessions designed to challenge your body and sharpen your mind.</p>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => { setSelectedClass(''); setIsModalOpen(true); }}>
+                            Book A Class
+                        </button>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                        {classes.map((cls) => (
+                            <ClassCard
+                                key={cls.id}
+                                title={cls.title}
+                                img={cls.img}
+                                onClick={(title) => { setSelectedClass(title); setIsModalOpen(true); }}
+                            />
+                        ))}
                     </div>
                 </div>
             </section>
@@ -105,26 +140,12 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Classes Section */}
-            <section id="classes" style={{ padding: '8rem 0' }}>
-                <div className="container">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem' }}>
-                        <div>
-                            <h2 style={{ fontSize: '3rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1rem' }}>Our Classes</h2>
-                            <p style={{ color: 'var(--text-gray)', maxWidth: '400px' }}>Dynamic sessions designed to challenge your body and sharpen your mind.</p>
-                        </div>
-                        <button className="btn btn-primary" onClick={() => alert("Booking functionality coming soon!")}>
-                            Book A Class
-                        </button>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-                        {classes.map(cls => (
-                            <ClassCard key={cls.id} {...cls} />
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <BookingModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                selectedClass={selectedClass} 
+                classes={classes} 
+            />
         </>
     );
 };

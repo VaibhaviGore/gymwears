@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Mic } from 'lucide-react';
+import { ShoppingCart, Menu, X, Mic, LogOut, User } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { cartCount } = useCart();
+    const { isAuthenticated, user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -35,6 +37,17 @@ const Navbar = () => {
                         <Mic size={15} />
                         About
                     </Link>
+
+                    {isAuthenticated ? (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{user?.name?.split(' ')[0]}</span>
+                            <button onClick={logout} className="nav-link" style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', outline: 'none', padding: 0 }}>
+                                <LogOut size={20} />
+                            </button>
+                        </div>
+                    ) : (
+                        <Link to="/login" className="nav-link">Login</Link>
+                    )}
 
                     <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                         <ShoppingCart size={24} />
@@ -96,6 +109,16 @@ const Navbar = () => {
                         <Mic size={15} />
                         About
                     </Link>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="nav-link" style={{ color: 'var(--primary)' }}>Hello, {user?.name}</span>
+                            <button onClick={() => { logout(); setIsMenuOpen(false); }} className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'none', border: 'none', cursor: 'pointer', outline: 'none', textAlign: 'left', padding: 0 }}>
+                                <LogOut size={15} /> Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/login" className="nav-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                    )}
                     <Link to="/cart" className="nav-link" onClick={() => setIsMenuOpen(false)}
                         style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                         <ShoppingCart size={16} />

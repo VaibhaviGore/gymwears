@@ -1,9 +1,10 @@
-const ClassCard = ({ title, img }) => {
+const ClassCard = ({ title, img, onClick }) => {
     return (
-        <div style={{ position: 'relative', height: '400px', overflow: 'hidden', cursor: 'pointer' }} className="class-card">
+        <div onClick={() => onClick && onClick(title)} style={{ position: 'relative', height: '400px', overflow: 'hidden', cursor: 'pointer' }} className="class-card">
             <img
                 src={img}
                 alt={title}
+                onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=600'; }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) brightness(0.7)', transition: 'all 0.5s ease' }}
                 className="class-image"
             />
