@@ -1,27 +1,55 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { products } from '../data/products';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useCart } from '../context/CartContext';
-import { ArrowLeft, Check, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, Check, ShoppingBag, Loader } from 'lucide-react';
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const product = products.find(p => p.id === parseInt(id));
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const { addToCart } = useCart();
 
     const [selectedSize, setSelectedSize] = useState('');
     const [added, setAdded] = useState(false);
 
-    if (!product) {
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+                setProduct(data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setError('Product not found');
+                setLoading(false);
+            }
+        };
+
+        fetchProduct();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', flexDirection: 'column', gap: '1rem' }}>
+                <Loader size={48} className="text-neon" style={{ animation: 'spin 1s linear infinite' }} />
+                <p style={{ color: 'var(--text-gray)' }}>Loading details...</p>
+                <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+            </div>
+        );
+    }
+
+    if (error || !product) {
         return <div className="container" style={{ padding: '4rem 0', textAlign: 'center' }}><h2>Product not found</h2><Link to="/shop" className="btn btn-outline">Back to Shop</Link></div>;
     }
 
     const handleAddToCart = () => {
-        if (!selectedSize) {
+        if (!selectedSize && product.sizes && product.sizes.length > 0) {
             alert('Please select a size');
             return;
         }
-        addToCart(product, selectedSize);
+        addToCart(product, selectedSize || (product.sizes && product.sizes[0] ? product.sizes[0] : null));
         setAdded(true);
         setTimeout(() => setAdded(false), 2000);
     };

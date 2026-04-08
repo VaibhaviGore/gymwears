@@ -53,6 +53,54 @@ const products = [
     image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80&w=800",
     description: "Minimalist cut for maximum airflow.",
     sizes: ["S", "M", "L", "XL"]
+  },
+  {
+    name: "AERO MESH LEGGINGS",
+    price: 55,
+    category: "Pants",
+    image: "https://images.unsplash.com/photo-1506501139174-099022df5260?auto=format&fit=crop&q=80&w=800",
+    description: "High-waisted fit with breathable mesh panels.",
+    sizes: ["XS", "S", "M", "L"]
+  },
+  {
+    name: "FLEX DRY JOGGERS",
+    price: 65,
+    category: "Pants",
+    image: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&q=80&w=800",
+    description: "Tapered fit sweatpants with zip pockets.",
+    sizes: ["S", "M", "L", "XL", "XXL"]
+  },
+  {
+    name: "OLYMPIC BARBELL GRIPS",
+    price: 25,
+    category: "Equipment",
+    image: "https://images.unsplash.com/photo-1584735175315-9d582afcd7af?auto=format&fit=crop&q=80&w=800",
+    description: "Anti-slip chalk-free grips for heavy lifting.",
+    sizes: ["One Size"]
+  },
+  {
+    name: "HYDRATION PRO FLASK",
+    price: 28,
+    category: "Accessories",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=800",
+    description: "Vacuum insulated stainless steel water bottle.",
+    sizes: ["One Size"]
+  },
+  {
+    name: "ELEVATE SPORTS BRA",
+    price: 40,
+    category: "Tops",
+    image: "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?auto=format&fit=crop&q=80&w=800",
+    description: "Medium impact support with removable pads.",
+    sizes: ["XS", "S", "M", "L"]
+  },
+  {
+    name: "PRO CUSHION YOGA MAT",
+    price: 45,
+    category: "Equipment",
+    image: "https://images.unsplash.com/photo-1629910006325-1e7a5dc026cf?auto=format&fit=crop&q=80&w=800",
+    description: "Extra thick non-slip eco-friendly yoga mat.",
+    sizes: ["One Size"]
   }
 ];
 
